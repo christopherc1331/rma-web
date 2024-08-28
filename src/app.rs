@@ -1,4 +1,5 @@
 use leptos::*;
+use leptos_material::{components::icon::Icon, UseMaterialWebComponents};
 use leptos_meta::*;
 use leptos_router::*;
 
@@ -8,19 +9,15 @@ pub fn App() -> impl IntoView {
     provide_meta_context();
 
     view! {
-        // injects a stylesheet into the document <head>
-        // id=leptos means cargo-leptos will hot-reload this stylesheet
-        <Stylesheet id="leptos" href="/pkg/rma-web.css"/>
+        <Stylesheet id="leptos" href="/pkg/rma-web.css" />
 
-        // sets the document title
-        <Title text="Welcome to Leptos"/>
-
-        // content for this welcome page
+        <Title text="Welcome to Leptos" />
+        <UseMaterialWebComponents />
         <Router>
             <main>
                 <Routes>
-                    <Route path="" view=HomePage/>
-                    <Route path="/*any" view=NotFound/>
+                    <Route path="" view=HomePage />
+                    <Route path="/*any" view=NotFound />
                 </Routes>
             </main>
         </Router>
@@ -37,6 +34,8 @@ fn HomePage() -> impl IntoView {
     view! {
         <h1>"Welcome to Leptos!"</h1>
         <button on:click=on_click>"Click Me: " {count}</button>
+        <h1>{"Hello from leptos-material!"}</h1>
+        <Icon name="mood" />
     }
 }
 
@@ -57,7 +56,5 @@ fn NotFound() -> impl IntoView {
         resp.set_status(actix_web::http::StatusCode::NOT_FOUND);
     }
 
-    view! {
-        <h1>"Not Found"</h1>
-    }
+    view! { <h1>"Not Found"</h1> }
 }
