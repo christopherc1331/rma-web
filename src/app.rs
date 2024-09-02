@@ -32,10 +32,23 @@ fn HomePage() -> impl IntoView {
     let on_click = move |_| set_count.update(|count| *count += 1);
 
     view! {
-        <h1>"Welcome to Leptos!"</h1>
-        <button on:click=on_click>"Click Me: " {count}</button>
-        <h1>{"Hello from leptos-material!"}</h1>
-        <Icon name="mood" />
+        <div class="home">
+            <header class="nav">
+                <div class="branding">
+                    <Icon name="flare" />
+                    <h1>Rate My Artist</h1>
+                </div>
+                <ul>
+                    <li>Home</li>
+                    <li>Artists</li>
+                    <li>Reviews</li>
+                    <li>About</li>
+                </ul>
+            </header>
+            <h1>"Welcome to Leptos!"</h1>
+            <button on:click=on_click>"Click Me: " {count}</button>
+            <h1>{"Hello from leptos-material!"}</h1>
+        </div>
     }
 }
 
