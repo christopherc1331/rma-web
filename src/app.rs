@@ -1,5 +1,13 @@
 use leptos::*;
-use leptos_material::{components::icon::Icon, UseMaterialWebComponents};
+use leptos_material::{
+    components::{
+        button::ButtonType,
+        icon::Icon,
+        iconbutton::{IconButton, IconButtonStyle},
+        textfield::TextField,
+    },
+    UseMaterialWebComponents,
+};
 use leptos_meta::*;
 use leptos_router::*;
 
@@ -11,7 +19,7 @@ pub fn App() -> impl IntoView {
     view! {
         <Stylesheet id="leptos" href="/pkg/rma-web.css" />
 
-        <Title text="Welcome to Leptos" />
+        <Title text="RateMyArtist" />
         <UseMaterialWebComponents />
         <Router>
             <main>
@@ -30,13 +38,14 @@ fn HomePage() -> impl IntoView {
     // Creates a reactive value to update the button
     let (count, set_count) = create_signal(0);
     let on_click = move |_| set_count.update(|count| *count += 1);
+    let search_val = create_rw_signal("".to_string());
 
     view! {
         <div class="home">
             <header class="nav">
                 <div class="branding">
-                    <Icon name="flare" />
-                    <h1>Rate My Artist</h1>
+                    <Icon name="flare"/>
+                    <h1>RateMyArtist</h1>
                 </div>
                 <ul>
                     <li>Home</li>
@@ -45,6 +54,19 @@ fn HomePage() -> impl IntoView {
                     <li>About</li>
                 </ul>
             </header>
+            <div class="hero">
+                <h1>Find Your Perfect Tattoo Artist</h1>
+                <p>Discover, rate, and review tattoo artists based on customer service and tattoo quality. Share your experience and help others find their ideal artist.</p>
+                <div class="search-container">
+                    <TextField attr:label="Search for artists or styles" value=search_val/>        <IconButton
+            style=IconButtonStyle::Filled
+            button_type=ButtonType::Submit
+            attr=vec![("aria-label", Attribute::String(Oco::Owned("Submit Button".to_string())))] // Convert array to Vec
+        >
+           "Submit"
+        </IconButton>
+                </div>
+        </div>
             <h1>"Welcome to Leptos!"</h1>
             <button on:click=on_click>"Click Me: " {count}</button>
             <h1>{"Hello from leptos-material!"}</h1>
