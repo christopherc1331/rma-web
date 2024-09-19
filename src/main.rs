@@ -6,7 +6,6 @@ async fn main() -> std::io::Result<()> {
     use leptos::*;
     use leptos_actix::{generate_route_list, LeptosRoutes};
     use rma_web::app::*;
-
     console_error_panic_hook::set_once();
     let conf = get_configuration(None).await.unwrap();
     let addr = conf.leptos_options.site_addr;
