@@ -49,6 +49,7 @@ impl Size {
 pub struct ButtonConfig {
     variant: Option<Variant>,
     size: Option<Size>,
+    label: Option<String>,
 }
 
 impl ButtonConfig {
@@ -68,28 +69,20 @@ impl ButtonConfig {
 }
 
 #[component]
-pub fn Button(config: Option<ButtonConfig>, children: Option<Children>) -> impl IntoView {
+pub fn Button(config: Option<ButtonConfig>, children: Children) -> impl IntoView {
     let config_to_use: ButtonConfig = match config {
         Some(config_param) => config_param,
         None => ButtonConfig {
             variant: Some(Variant::Default),
             size: Some(Size::Default),
+            label: Some("".to_string()),
         },
     };
     let style_string: String = config_to_use.get_style();
-    match children {
-        Some(optionalChildren) => {
-            view! {
-                <div class=style_string>
-                {optionalChildren()}
-                </div>
-            }
-        }
-        None => view! {
-            <div>
-                <button class=style_string>
-                </button>
-            </div>
-        },
+    view! {
+        <div class=style_string>
+            {config_to_use.label}
+            {children()}
+        </div>
     }
 }
