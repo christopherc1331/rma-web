@@ -1,6 +1,8 @@
 pub mod app;
+pub mod button;
 pub mod card;
 pub mod search_form;
+
 #[cfg(feature = "hydrate")]
 #[wasm_bindgen::prelude::wasm_bindgen]
 pub fn hydrate() {

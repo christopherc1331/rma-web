@@ -1,14 +1,6 @@
-use crate::{card::*, search_form::SearchForm};
+use crate::search_form::SearchForm;
 use leptos::*;
-use leptos_material::{
-    components::{
-        button::{Button, ButtonType},
-        icon::Icon,
-        iconbutton::{IconButton, IconButtonStyle},
-        textfield::TextField,
-    },
-    UseMaterialWebComponents,
-};
+use leptos_material::{components::icon::Icon, UseMaterialWebComponents};
 use leptos_meta::*;
 use leptos_router::*;
 
