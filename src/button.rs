@@ -46,42 +46,25 @@ impl Size {
     }
 }
 
-pub struct ButtonConfig {
-    variant: Option<Variant>,
-    size: Option<Size>,
-    label: Option<String>,
-}
-
-impl ButtonConfig {
-    fn get_style(&self) -> String {
-        let variant_style = match &self.variant {
-            Some(variant) => variant.as_str(),
-            None => Variant::Default.as_str(),
-        };
-
-        let size_style = match &self.size {
-            Some(size) => size.as_str(),
-            None => Size::Default.as_str(),
-        };
-
-        format!("{} {} {}", BASE_STYLE, variant_style, size_style)
-    }
+fn get_style(variant: Option<Variant>, size: Option<Size>) -> String {
+    let variant_style = variant.map_or(Variant::Default, |v| v).as_str();
+    let size_style = size.map_or(Size::Default, |v| v).as_str();
+    format!("{} {} {}", BASE_STYLE, variant_style, size_style)
 }
 
 #[component]
-pub fn Button(config: Option<ButtonConfig>, children: Children) -> impl IntoView {
-    let config_to_use: ButtonConfig = match config {
-        Some(config_param) => config_param,
-        None => ButtonConfig {
-            variant: Some(Variant::Default),
-            size: Some(Size::Default),
-            label: Some("".to_string()),
-        },
-    };
-    let style_string: String = config_to_use.get_style();
+pub fn Button(
+    variant: Option<Variant>,
+    size: Option<Size>,
+    label: Option<String>,
+    class: Option<String>,
+    children: Children,
+) -> impl IntoView {
+    let style_string: String = get_style(variant, size);
+    let combined_styles = format!("{} {}", style_string, class.map_or("".to_string(), |v| v));
     view! {
-        <div class=style_string>
-            {config_to_use.label}
+        <div class=combined_styles>
+            {label.map_or("".to_string(), |v| v)}
             {children()}
         </div>
     }

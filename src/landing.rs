@@ -45,7 +45,7 @@ pub fn Landing() -> impl IntoView {
                 <div class="w-full max-w-sm space-y-2">
                     <form class="flex space-x-2">
                     <Input class="max-w-lg flex-1 bg-white text-black" placeholder="Search for artists or styles" input_type=InputType::Text />
-                    <Button type="submit" variant="outline">
+                    <Button>
                         <Search class="h-4 w-4 mr-2" />
                         Search
                     </Button>
