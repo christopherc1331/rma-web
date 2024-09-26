@@ -1,5 +1,6 @@
 use leptos::*;
 
+#[derive(Clone)]
 pub enum InputType {
     Button,
     Checkbox,
@@ -56,14 +57,14 @@ impl InputType {
 }
 
 #[component]
-pub fn Input(input_type: Option<InputType>) -> impl IntoView {
-    let type_attr = match input_type {
-        Some(i_t) => i_t,
-        None => InputType::Text,
-    }
-    .as_str();
-
+pub fn Input(
+    #[prop(default = InputType::Text)] input_type: InputType,
+    #[prop(default = "")] class: &'static str,
+    #[prop(default = "")] placeholder: &'static str,
+) -> impl IntoView {
+    let input_class = "flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50".to_string();
+    let class_to_use = format!("{} {}", input_class, class);
     view! {
-            <input type=type_attr  class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"/>
+            <input type=input_type.as_str() placeholder=placeholder  class=class_to_use/>
     }
 }

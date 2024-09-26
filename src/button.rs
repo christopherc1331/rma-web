@@ -46,25 +46,19 @@ impl Size {
     }
 }
 
-fn get_style(variant: Option<Variant>, size: Option<Size>) -> String {
-    let variant_style = variant.map_or(Variant::Default, |v| v).as_str();
-    let size_style = size.map_or(Size::Default, |v| v).as_str();
-    format!("{} {} {}", BASE_STYLE, variant_style, size_style)
-}
-
 #[component]
 pub fn Button(
-    variant: Option<Variant>,
-    size: Option<Size>,
-    label: Option<String>,
-    class: Option<String>,
+    #[prop(default = Variant::Default)] variant: Variant,
+    #[prop(default = Size::Default)] size: Size,
+    #[prop(default = "")] label: &'static str,
+    #[prop(default = "")] class: &'static str,
     children: Children,
 ) -> impl IntoView {
-    let style_string: String = get_style(variant, size);
-    let combined_styles = format!("{} {}", style_string, class.map_or("".to_string(), |v| v));
+    let style_string: String = format!("{} {} {}", BASE_STYLE, variant.as_str(), size.as_str());
+    let combined_styles = format!("{} {}", style_string, class);
     view! {
         <div class=combined_styles>
-            {label.map_or("".to_string(), |v| v)}
+            {label}
             {children()}
         </div>
     }
