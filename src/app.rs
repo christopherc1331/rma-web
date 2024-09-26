@@ -1,4 +1,4 @@
-use crate::search_form::SearchForm;
+use crate::{landing::Landing, search_form::SearchForm};
 use leptos::*;
 use leptos_material::{components::icon::Icon, UseMaterialWebComponents};
 use leptos_meta::*;
@@ -17,6 +17,7 @@ pub fn App() -> impl IntoView {
             <main>
                 <Routes>
                     <Route path="" view=HomePage />
+                    <Route path="landing" view=Landing />
                     <Route path="/*any" view=NotFound />
                 </Routes>
             </main>

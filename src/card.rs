@@ -29,9 +29,9 @@ pub fn CardDescription(children: Children) -> impl IntoView {
 }
 
 #[component]
-pub fn CardContent(children: Children) -> impl IntoView {
+pub fn CardContent(children: Children, #[prop(default = "")] class: &'static str) -> impl IntoView {
     view! {
-        <div class="p-6 pt-0">{children()}</div>
+        <div class=format!("{} {}", class, "p-6 pt-0")>{children()}</div>
     }
 }
 
