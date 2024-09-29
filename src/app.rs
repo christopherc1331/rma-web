@@ -14,8 +14,8 @@ pub fn App() -> impl IntoView {
         <Title text="RateMyArtist" />
         <UseMaterialWebComponents />
         <Router>
-            <main class="container mx-auto">
-                <NavTop/>
+            <NavTop/>
+            <main class="container mx-auto max-w-[1500px] w-[80%]">
                 <Routes>
                     <Route path="" view=HomePage />
                     <Route path="landing" view=Landing />
