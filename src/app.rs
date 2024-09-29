@@ -1,4 +1,4 @@
-use crate::{landing::Landing, search_form::SearchForm};
+use crate::{landing::Landing, search_form::SearchForm, artist::ArtistPage, nav::NavTop};
 use leptos::*;
 use leptos_material::{components::icon::Icon, UseMaterialWebComponents};
 use leptos_meta::*;
@@ -14,11 +14,13 @@ pub fn App() -> impl IntoView {
         <Title text="RateMyArtist" />
         <UseMaterialWebComponents />
         <Router>
-            <main>
+            <main class="container mx-auto">
+                <NavTop/>
                 <Routes>
                     <Route path="" view=HomePage />
                     <Route path="landing" view=Landing />
                     <Route path="/*any" view=NotFound />
+                    <Route path="artist/:id?" view=ArtistPage />
                 </Routes>
             </main>
         </Router>

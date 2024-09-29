@@ -4,6 +4,8 @@ pub mod card;
 pub mod input;
 pub mod landing;
 pub mod search_form;
+pub mod artist;
+pub mod nav;
 
 #[cfg(feature = "hydrate")]
 #[wasm_bindgen::prelude::wasm_bindgen]
