@@ -1,21 +1,20 @@
 use leptos::{component, view, IntoView, Params, SignalWith};
-use leptos_router::{use_params, Params};
+use leptos_router::{use_params_map, use_params, Params};
 
-#[derive(Params, PartialEq)]
+#[derive(Params, PartialEq, Default, Clone)]
 struct ArtistParams {
     id: Option<String>,
 }
 
+
 #[component]
 pub fn ArtistPage() -> impl IntoView {
     let params = use_params::<ArtistParams>();
-    let id = move || {
-        params.with(|params| {
-            params.as_ref()
-                .map(|params| params.id)
-                .unwrap_or_default()
-        })
-    };
+    let id =  params.with(|params|
+        params.as_ref()
+            .map(|params| params.clone().id)
+            .unwrap_or_default())
+        .unwrap_or_default();
     view! {
         <div class="hero bg-base-200">
             <div class="hero-content flex-col lg:flex-row-reverse">
