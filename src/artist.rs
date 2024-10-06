@@ -1,5 +1,5 @@
 use leptos::{
-    component, create_resource, server, view, IntoView, Params, ServerFnError, SignalGet, SignalWith, Transition
+    component, create_resource, CollectView, server, view, IntoView, Params, ServerFnError, SignalGet, SignalWith, Transition
 };
 use leptos_router::{use_params, Params};
 use serde::{Deserialize, Serialize};
@@ -11,12 +11,20 @@ pub struct SocialLink {
 }
 
 #[derive(Clone, Serialize, Deserialize, Debug, Default)]
+pub struct PortfolioImage {
+    url: String,
+    bio: Option<String>,
+    date: String,
+}
+
+#[derive(Clone, Serialize, Deserialize, Debug, Default)]
 pub struct ArtistInfo {
     id: String,
     img_url: String,
     name: String,
     bio: String,
     links: Option<Vec<SocialLink>>,
+    portfolio: Option<Vec<PortfolioImage>>,
 }
 
 #[server(FetchArtist)]
@@ -27,6 +35,41 @@ async fn fetch_artist(id: String) -> Result<ArtistInfo, ServerFnError> {
         img_url: "https://img.daisyui.com/images/stock/photo-1635805737707-575885ab0820.webp".into(),
         name: "Lyndon Korcala".into(),
         bio: "Provident cupiditate voluptatem et in. Quaerat fugiat ut assumenda excepturi exercitationem quasi. In deleniti eaque aut repudiandae et a id nisi.".into(),
+        portfolio: Some(vec![
+            PortfolioImage {
+                url: "https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.webp".into(),
+                bio: Some("Provident cupiditate voluptatem et in.".into()),
+                date: "2/21/14".into(),
+                ..Default::default()
+            },
+            PortfolioImage {
+                url: "https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.webp".into(),
+                date: "2/22/14".into(),
+                ..Default::default()
+            },
+            PortfolioImage {
+                url: "https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.webp".into(),
+                bio: Some("Provident cupiditate voluptatem et in.".into()),
+                date: "2/25/14".into(),
+                ..Default::default()
+            },
+            PortfolioImage {
+                url: "https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.webp".into(),
+                bio: Some("Provident cupiditate voluptatem et in.".into()),
+                date: "2/27/14".into(),
+                ..Default::default()
+            },
+            PortfolioImage {
+                url: "https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.webp".into(),
+                date: "2/28/14".into(),
+                ..Default::default()
+            },
+            PortfolioImage {
+                url: "https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.webp".into(),
+                date: "3/4/14".into(),
+                ..Default::default()
+            },
+        ]),
         ..Default::default()
     })
 }
@@ -70,6 +113,31 @@ pub fn ArtistPage() -> impl IntoView {
                             <button class="btn btn-primary">Book Now</button>
                         </div>
                     </div>
+                </div>
+                <div class="grid gap-4 grid-cols-4">
+                    {
+                        match artist_info.portfolio {
+                            None => view!{""}.into_view(),
+                            Some(portfolio) => portfolio.into_iter()
+                                .map(|portfolio_item| view!{
+                                    <div class="card bg-base-100 w-96 shadow-xl">
+                                        <figure>
+                                            <img
+                                            src=portfolio_item.url
+                                            alt="Shoes" />
+                                        </figure>
+                                        <div class="card-body">
+                                            <h2 class="card-title">{portfolio_item.date}</h2>
+                                            <p>{portfolio_item.bio}</p>
+                                            <div class="card-actions justify-end">
+                                                <button class="btn btn-primary">Buy Now</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }.into_view()
+                            ).collect_view()
+                        }
+                    }
                 </div>
              }.into_view()
         }}
