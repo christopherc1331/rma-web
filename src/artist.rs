@@ -1,6 +1,6 @@
 use leptos::{
     component, create_resource, server, view, IntoView, Params, ServerFnError, SignalGet,
-    SignalWith,
+    Transition,
 };
 use leptos_router::{use_params, Params};
 use serde::{Deserialize, Serialize};
@@ -40,40 +40,43 @@ struct ArtistParams {
 #[component]
 pub fn ArtistPage() -> impl IntoView {
     let params = use_params::<ArtistParams>();
-    let id = params.with(|params| {
-        params
-            .as_ref()
-            .map(|params| params.clone().id)
-            .unwrap_or_default()
-            .unwrap_or_default()
-    });
+    // let id = params.with(|params| {
+    //     params
+    //         .as_ref()
+    //         .map(|params| params.clone().id)
+    //         .unwrap_or_default()
+    //         .unwrap_or_default()
+    // });
+    let id = "foo".to_string();
     let artist_resource = create_resource(
         || (),
         move |_| {
             let id = id.clone();
-            async move { fetch_artist(id).await }
+            async move { fetch_artist(id).await.unwrap() }
         },
     );
     view! {
-        <div class="hero bg-base-200">
-            <div class="hero-content flex-col lg:flex-row-reverse">
-                {move || match artist_resource.get() {
-                None => view! {<p>"Loading..."</p>}.into_view(),
-                Some(data) => {
-                    let artist_info = data.unwrap_or_default();
-                    view! {
-                        <img
-                            src=artist_info.img_url
-                            class="max-w-sm rounded-lg shadow-2xl" />
+        <Transition
+            fallback=move || view! {<p>"Loading..."</p>}
+        >
+        {move || match artist_resource.get() {
+             // TODO: Redirect to 404 page on none
+             None => view!{<p>"Error encountered, artist not found"</p>}.into_view(),
+             Some(artist_info) => view! {
+                <div class="hero bg-base-200">
+                    <div class="hero-content flex-col lg:flex-row-reverse">
+                        <img src=artist_info.img_url class="max-w-sm rounded-lg shadow-2xl" />
                         <div>
                             <h1 class="text-5xl font-bold">{artist_info.name}</h1>
                             <p class="py-6">{artist_info.bio}</p>
                             <button class="btn btn-primary">Book Now</button>
                         </div>
-                    }.into_view()
-                },
-            }}
-            </div>
-        </div>
+                    </div>
+                </div>
+
+
+             }.into_view()
+        }}
+        </Transition>
     }
 }
