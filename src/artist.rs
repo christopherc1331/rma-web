@@ -1,6 +1,5 @@
 use leptos::{
-    component, create_resource, server, view, IntoView, Params, ServerFnError, SignalGet,
-    Transition,
+    component, create_resource, server, view, IntoView, Params, ServerFnError, SignalGet, SignalWith, Transition
 };
 use leptos_router::{use_params, Params};
 use serde::{Deserialize, Serialize};
@@ -40,14 +39,13 @@ struct ArtistParams {
 #[component]
 pub fn ArtistPage() -> impl IntoView {
     let params = use_params::<ArtistParams>();
-    // let id = params.with(|params| {
-    //     params
-    //         .as_ref()
-    //         .map(|params| params.clone().id)
-    //         .unwrap_or_default()
-    //         .unwrap_or_default()
-    // });
-    let id = "foo".to_string();
+     let id = params.with(|params| {
+         params
+             .as_ref()
+             .map(|params| params.clone().id)
+             .unwrap_or_default()
+             .unwrap_or_default()
+     });
     let artist_resource = create_resource(
         || (),
         move |_| {
@@ -73,8 +71,6 @@ pub fn ArtistPage() -> impl IntoView {
                         </div>
                     </div>
                 </div>
-
-
              }.into_view()
         }}
         </Transition>
