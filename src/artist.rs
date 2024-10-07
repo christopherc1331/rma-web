@@ -115,7 +115,7 @@ pub fn ArtistPage() -> impl IntoView {
                         </div>
                     </div>
                 </div>
-                <div class="flex flex-wrap-auto">
+                <div class="flex flex-wrap justify-between">
                     {
                         match artist_info.portfolio {
                             None => view!{""}.into_view(),
