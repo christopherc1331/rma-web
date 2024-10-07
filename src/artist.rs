@@ -1,5 +1,6 @@
 use leptos::{
-    component, create_resource, CollectView, server, view, IntoView, Params, ServerFnError, SignalGet, SignalWith, Transition
+    component, create_resource, server, view, CollectView, IntoView, Params, ServerFnError,
+    SignalGet, SignalWith, Transition,
 };
 use leptos_router::{use_params, Params};
 use serde::{Deserialize, Serialize};
@@ -82,13 +83,13 @@ struct ArtistParams {
 #[component]
 pub fn ArtistPage() -> impl IntoView {
     let params = use_params::<ArtistParams>();
-     let id = params.with(|params| {
-         params
-             .as_ref()
-             .map(|params| params.clone().id)
-             .unwrap_or_default()
-             .unwrap_or_default()
-     });
+    let id = params.with(|params| {
+        params
+            .as_ref()
+            .map(|params| params.clone().id)
+            .unwrap_or_default()
+            .unwrap_or_default()
+    });
     let artist_resource = create_resource(
         || (),
         move |_| {
@@ -114,7 +115,7 @@ pub fn ArtistPage() -> impl IntoView {
                         </div>
                     </div>
                 </div>
-                <div class="grid gap-4 grid-cols-4">
+                <div class="flex flex-wrap-auto">
                     {
                         match artist_info.portfolio {
                             None => view!{""}.into_view(),
@@ -122,9 +123,7 @@ pub fn ArtistPage() -> impl IntoView {
                                 .map(|portfolio_item| view!{
                                     <div class="card bg-base-100 w-96 shadow-xl">
                                         <figure>
-                                            <img
-                                            src=portfolio_item.url
-                                            alt="Shoes" />
+                                            <img src=portfolio_item.url alt="Shoes" />
                                         </figure>
                                         <div class="card-body">
                                             <h2 class="card-title">{portfolio_item.date}</h2>
